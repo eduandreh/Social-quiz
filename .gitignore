@@ -1,0 +1,24 @@
+# gitignore para un proyecto de node.js
+
+### Node ###
+node_modules/
+
+### Logs ###
+logs
+*.log
+npm-debug.log*
+
+### Editor ###
+.vscode
+
+### Others ###
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+*.sublime-workspace
+*.sublime-project
+*.env
+
+
