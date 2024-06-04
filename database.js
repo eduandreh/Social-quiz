@@ -12,9 +12,9 @@ export function getQuestion() {
   return result;
 }
 
-export function sendAnswer(id) {
-  const result = db2.prepare("SELECT * FROM questions WHERE id = ?").get(id);
-  return result;
+export function sendAnswer(id, answer) {
+  const result = db2.prepare("SELECT answer FROM questions WHERE id = ?").get(id);
+  return result?.answer === answer;
 }
 
 export async function insertQuestion(toInsert, clue) {

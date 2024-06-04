@@ -12,31 +12,54 @@ export const getQuestionController = (req, res, next) => {
 }
 
 export const sendAnswerController = (req, res, next) => {
-    res.json(sendAnswer(req.params.id));
+    const id = req.params.id;
+    const answer = req.body.answer;
+    res.json(sendAnswer(id, answer));
 }
 
-export const  insertQuestionController = async(req, res, next) => {
-    // res.status(501).send("not implemented")
-    const toInsert = req.body // validar que el body sea correcto...
+export const insertQuestionController = async (req, res, next) => {
+    const toInsert = req.body; // Validar que el body sea correcto.
+    const movieName = toInsert.answer;
+    let hint = null;
+    console.log('Inserting question:', toInsert);
+    console.log('Movie name:', movieName);
+
+    const serverStatus = await checkServerAvailability('http://localhost:11434/');
+    if (serverStatus) {
         try {
             const response = await axios.post('http://localhost:11434/api/chat', {
                 "model": "llama3:instruct",
                 "messages": [
-                  {
-                    "role": "user",
-                    "content": "Dame una pista para que pueda adivinar la película 'The lion king', no menciones el titulo de la pelicula"
-                  }
+                    {
+                        "role": "user",
+                        "content": `Dame una pista para que pueda adivinar la película '${movieName}', no menciones el título de la película.`
+                    }
                 ],
                 "stream": false
-              });
-                const hint = response.data.message.content;
-        res.json(await insertQuestion(toInsert, hint));
-        
-    }catch(ex){
-        next(ex);
+            });
+            hint = response.data.message.content;
+        } catch (ex) {
+            console.error('Error al obtener la pista del servidor de IA', ex);
+        }
     }
 
-}
+    try {
+        const result = await insertQuestion(toInsert, hint);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const checkServerAvailability = async (url) => {
+    try {
+        const response = await axios.get(url); 
+        return response.status === 200;
+    } catch (error) {
+        console.error(`Error verificando la disponibilidad de la api de IA`);
+        return false;
+    }
+};
 
 //random ()
 
