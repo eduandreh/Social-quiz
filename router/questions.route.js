@@ -1,4 +1,5 @@
 import express from "express";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -10,10 +11,11 @@ import {
 
 // publico
 router.get("/", getQuestionController);
+router.post("/:id", sendAnswerController);
 
 // privado
+router.use(verifyToken);
 router.post("/", insertQuestionController);
-router.post("/:id", sendAnswerController);
 //router.put("/:id", updateUserController);
 //router.delete("/:id", deleteUserController);
 

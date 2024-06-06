@@ -19,45 +19,39 @@ export const sendAnswerController = (req, res, next) => {
 
 export const insertQuestionController = async (req, res, next) => {
     const toInsert = req.body; // Validar que el body sea correcto.
+    const user = req.USER_ID;
     const movieName = toInsert.answer;
     let hint = null;
-    console.log('Inserting question:', toInsert);
-    console.log('Movie name:', movieName);
 
-    const serverStatus = await checkServerAvailability('http://localhost:11434/');
-    if (serverStatus) {
-        try {
-            const response = await axios.post('http://localhost:11434/api/chat', {
-                "model": "llama3:instruct",
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": `Dame una pista para que pueda adivinar la película '${movieName}', no menciones el título de la película.`
-                    }
-                ],
-                "stream": false
-            });
-            hint = response.data.message.content;
-        } catch (ex) {
-            console.error('Error al obtener la pista del servidor de IA', ex);
-        }
-    }
+    console.log("user_id", user);
+
+     hint = await getHint(movieName);
 
     try {
-        const result = await insertQuestion(toInsert, hint);
+        const result = await insertQuestion(toInsert, hint, user);
         res.json(result);
     } catch (error) {
         next(error);
     }
 };
 
-const checkServerAvailability = async (url) => {
+const getHint = async (movieName) => {
     try {
-        const response = await axios.get(url); 
-        return response.status === 200;
+        const response = await axios.post('http://localhost:11434/api/chat', {
+            "model": "llama3:instruct",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": `Dame una pista para que pueda adivinar la película '${movieName}', no menciones el título de la película.`
+                }
+            ],
+            "stream": false
+        }); 
+        return response.data.message.content;
+
     } catch (error) {
         console.error(`Error verificando la disponibilidad de la api de IA`);
-        return false;
+        return null;
     }
 };
 
