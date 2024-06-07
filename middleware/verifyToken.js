@@ -29,7 +29,9 @@ export function authorizate(req, res, next) {
 
   // console.log(payload);
 
-  const id_user = req.params.idUser; // <-- string
+  const id_user = req.params.id_user; // <-- string
+
+  console.log("id_user", id_user);
 
   if (id_user != req.USER_ID)
     return next({

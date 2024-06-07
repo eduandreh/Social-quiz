@@ -82,3 +82,14 @@ json
 {
   "mensaje": "Muy mal! era blablabla"
 }
+
+
+
+que me queda
+
+Esquemas y validaciones
+User autorizaciones y getquestion por user
+Categorias de preguntas (todo)
+Modo de juego de multiple choice
+Comentarios
+Likes, dislike

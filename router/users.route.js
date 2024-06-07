@@ -2,6 +2,8 @@
 import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
 
+import routeQuestions from "./users/questions.route.js";
+
 const router = express.Router({});
 
 import {
@@ -35,6 +37,8 @@ router.get("/", allUsersController);
 router.get("/:id", getUsersController);
 // router.put("/:id", updateUserController);
 // router.delete("/:id", deleteUserController);
+
+router.use("/:id_user/questions", routeQuestions);
 
 
 export default router;

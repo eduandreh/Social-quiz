@@ -3,7 +3,7 @@ import { allUsers,
     insertUser,
     //updateUser,
     // deleteUser,
-} from "../database.js"
+} from "../models/users.database.js"
 
 
 export const allUsersController = (req, res, next) => {

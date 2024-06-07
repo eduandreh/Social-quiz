@@ -4,14 +4,17 @@ import { verifyToken } from "../middleware/verifyToken.js";
 const router = express.Router({ mergeParams: true });
 
 import {
-    sendAnswerController,
     getQuestionController,
     insertQuestionController
   } from "../controllers/questions.controller.js";
 
+  import {
+    sendAnswerController
+  } from "../controllers/answers.controller.js";
+
 // publico
 router.get("/", getQuestionController);
-router.post("/:id", sendAnswerController);
+router.post("/:idUser", sendAnswerController);
 
 // privado
 router.use(verifyToken);

@@ -3,11 +3,9 @@ import express from "express";
 import questionsRoute from "./router/questions.route.js";
 import usersRoute from "./router/users.route.js";
 
-import { verifyToken } from "./middleware/verifyToken.js";
-
 import jwt from "jsonwebtoken";
 
-import { authenticate } from "./database.js";
+import { authenticate } from "./models/users.database.js";
 
 import { config } from "dotenv";
 
@@ -46,16 +44,6 @@ app.use((err, req, res, next) => {
 });
 
 app.use("/users", usersRoute);
-
-// privado
-
-app.use(verifyToken);
-
-app.get("/", (req, res, next) => {
-  //vamos a verificar que el usuario se ha logueado:
-
-  res.status(200).send("<h1>Hello World!</h1>");
-});
 
 app.use((err, req, res, next) => {
     res.status(500).json({ error: err });

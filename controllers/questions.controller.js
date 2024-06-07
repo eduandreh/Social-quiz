@@ -2,26 +2,15 @@ import axios from 'axios';
 import { 
     getQuestion, 
     insertQuestion,
-    sendAnswer
-    // deleteUser,
-} from "../database.js"
+    allQuestionsByUser
+} from "../models/questions.database.js"
 
 
 export const getQuestionController = (req, res, next) => {
     res.json(getQuestion());
 }
 
-export const sendAnswerController = (req, res, next) => {
-    const id = req.params.id;
-    const answer = req.body.answer;
-    if(sendAnswer(id, answer)){
-        res.status(200).send("Correcto! :)");
-    }
-    else{
-        res.status(400)
-        .send("Respuesta incorrecta. Intente de nuevo o solicite una pista.");
-    }
-}
+
 
 export const insertQuestionController = async (req, res, next) => {
     const toInsert = req.body; // Validar que el body sea correcto.
@@ -74,3 +63,13 @@ const getHint = async (movieName) => {
 // export const deleteUserController = (req, res, next) => {
 //     res.status(501).send("not implemented")
 // }
+
+export const getQuestionsByUserController = (req, res, next) => {
+    try {
+      let { idUser } = req.params;
+      const result = allQuestionsByUser(idUser);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
