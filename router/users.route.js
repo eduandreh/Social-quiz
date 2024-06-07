@@ -4,6 +4,8 @@ import { verifyToken } from "../middleware/verifyToken.js";
 
 import routeQuestions from "./users/questions.route.js";
 
+import { verifyUserSchema } from "../middleware/users/verifySchema.js";
+
 const router = express.Router({});
 
 import {
@@ -29,7 +31,7 @@ router.use(middlewareGenericErrorLogging);
 router.use(middlewareGenericError);
 
 // publico
-router.post("/", insertUserController);
+router.post("/", verifyUserSchema, insertUserController);
 
 // privado
 router.use(verifyToken);

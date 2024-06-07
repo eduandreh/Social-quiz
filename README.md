@@ -87,8 +87,8 @@ json
 
 que me queda
 
-Esquemas y validaciones
-User autorizaciones y getquestion por user
+Esquemas y validaciones 
+User autorizaciones y getquestion por user (listo)
 Categorias de preguntas (todo)
 Modo de juego de multiple choice
 Comentarios

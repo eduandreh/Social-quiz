@@ -1,6 +1,8 @@
 import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
 
+import { verifyQuestionSchema } from "../middleware/questions/verifySchema.js";
+
 const router = express.Router({ mergeParams: true });
 
 import {
@@ -18,7 +20,7 @@ router.post("/:idUser", sendAnswerController);
 
 // privado
 router.use(verifyToken);
-router.post("/", insertQuestionController);
+router.post("/", verifyQuestionSchema, insertQuestionController);
 //router.put("/:id", updateUserController);
 //router.delete("/:id", deleteUserController);
 
