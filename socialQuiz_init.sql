@@ -6,12 +6,9 @@ CREATE TABLE users (
     password TEXT
 );
 
-DROP TABLE IF EXISTS movies;
-CREATE TABLE movies (
-    id_movie INTEGER PRIMARY KEY AUTOINCREMENT,
-    movie_name TEXT,
-    categoria TEXT
-);
+INSERT INTO users (name, email, password) VALUES ('Pepe', 'pepe@gmail.com', '123456');
+INSERT INTO users (name, email, password) VALUES ('Juan', 'juan@gmail.com', '123456');	
+INSERT INTO users (name, email, password) VALUES ('Maria', 'maria@gmail.com', '123456');
 
 
 DROP TABLE IF EXISTS questions;
@@ -20,14 +17,36 @@ CREATE TABLE questions (
     id_user INTEGER,
     emojis TEXT,
     answer TEXT,
-    id_movie INTEGER,
-    is_private BOOLEAN,
-    hint TEXT
+    is_private INTEGER DEFAULT 0,
+    hint TEXT,
+    is_multiple_choice INTEGER DEFAULT 0
 );
 
-INSERT INTO questions (emojis, answer, id_movie, is_private) VALUES ('🔕🐑🐑🐑', 'El silencio de los corderos', 1, 0);
-INSERT INTO questions (emojis, answer, id_movie, is_private) VALUES ('💍💍💍💍⚰️', 'Cuatro bodas y un funeral', 2, 0);
-INSERT INTO questions (emojis, answer, id_movie, is_private) VALUES ('🏝️🏐', 'Naufrago', 3, 0);
+INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('🔕🐑🐑🐑', 'El silencio de los corderos', 1, 0);
+INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('💍💍💍💍⚰️', 'Cuatro bodas y un funeral', 2, 0);
+INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('🏝️🏐', 'Naufrago', 3, 0);
+
+
+DROP TABLE IF EXISTS multiple_choice_answers;
+CREATE TABLE multiple_choice_answers (
+    id_answer INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_question INTEGER,
+    answer TEXT,
+    FOREIGN KEY (id_question) REFERENCES questions(id_question)
+);
+
+DROP TABLE IF EXISTS category;
+CREATE TABLE category (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+DROP TABLE IF EXISTS question_category;
+CREATE TABLE question_category(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    questionId INTEGER,
+    categoryId INTEGER
+);
 
 
 

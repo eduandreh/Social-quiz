@@ -3,8 +3,13 @@ const DBSOURCE = "./socialQuiz.sqlite";
 
 const db2 = bsqlite3(DBSOURCE);
 
-export function getQuestion() {
-  const result = db2.prepare("SELECT * FROM questions WHERE is_private = 0 ORDER BY RANDOM() LIMIT 1").get();
+export function getRandomQuestion() {
+  const result = db2.prepare("SELECT id_question, emojis FROM questions WHERE is_private = 0 ORDER BY RANDOM() LIMIT 1").get();
+  return result;
+}
+
+export function getQuestion(id_question) {
+  const result = db2.prepare("SELECT * FROM questions WHERE id_question = ?").get(id_question);
   return result;
 }
 
@@ -46,5 +51,7 @@ export function deleteUser(id_user) {
   const result = db2.prepare(`DELETE FROM users WHERE id_user = ?`).run(id_user);
   return result;
 }
+
+
 
 

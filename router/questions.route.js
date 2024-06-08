@@ -6,8 +6,10 @@ import { verifyQuestionSchema } from "../middleware/questions/verifySchema.js";
 const router = express.Router({ mergeParams: true });
 
 import {
+    getRandomQuestionController,
+    insertQuestionController,
     getQuestionController,
-    insertQuestionController
+   getHintController
   } from "../controllers/questions.controller.js";
 
   import {
@@ -15,8 +17,10 @@ import {
   } from "../controllers/answers.controller.js";
 
 // publico
-router.get("/", getQuestionController);
-router.post("/:idUser", sendAnswerController);
+router.get("/", getRandomQuestionController);
+router.post("/:id_question", sendAnswerController);
+router.get("/:id_question", getQuestionController);
+router.get("/:id_question/hint", getHintController);
 
 // privado
 router.use(verifyToken);

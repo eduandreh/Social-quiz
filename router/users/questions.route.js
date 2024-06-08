@@ -4,7 +4,8 @@ import express from "express";
 const router = express.Router({ mergeParams: true });
 
 import {
-   getQuestionsByUserController
+   getQuestionsByUserController,
+   
   } from "../../controllers/questions.controller.js";
 
 import { authorizate } from "../../middleware/verifyToken.js";
@@ -15,5 +16,9 @@ function changeAtMeToUserId(req, res, next) {
 }
 
 router.get("/", changeAtMeToUserId, authorizate, getQuestionsByUserController);
+
+
+
+
 
 export default router;

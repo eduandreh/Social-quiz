@@ -3,7 +3,7 @@ import {
 } from "../models/answers.database.js"
 
 export const sendAnswerController = (req, res, next) => {
-    const id = req.params.id;
+    const id = req.params.id_question;
     const answer = req.body.answer;
     
     try {
