@@ -1,8 +1,8 @@
 import { allUsers,
     getUser, 
     insertUser,
-    //updateUser,
-    // deleteUser,
+    updateUser,
+     deleteUser,
 } from "../models/users.database.js"
 
 
@@ -15,28 +15,32 @@ export const getUsersController = (req, res, next) => {
 }
 
 export const  insertUserController = async(req, res, next) => {
-    // res.status(501).send("not implemented")
-    const toInsert = req.body // validar que el body sea correcto...
-
+    const toInsert = req.body
     try{
         res.json(await insertUser(toInsert))
-    }catch(ex){
-        next(ex);
+    }catch(error){
+        next(error);
     }
 }
 
-// export const updateUserController = (req, res, next) => {
+export const updateUserController = (req, res, next) => {
 
-//     const id = req.params.id;  // verificar que el id es correcto...
-//     const toUpdate = req.body; // verificar que el body es correcto...
+    try {
+        const id_user = req.params.id_user;
+        const toUpdate = req.body;
+        const result = updateUser(id_user, toUpdate);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
 
-//     // res.status(500).send("not implemented")
-//     res.status(200).json(updateUser(id , toUpdate))
-// }
-
-// export const updateUserController = (req, res, next) => {
-//     res.status(501).send("not implemented")
-// }
-// export const deleteUserController = (req, res, next) => {
-//     res.status(501).send("not implemented")
-// }
+export const deleteUserController = (req, res, next) => {
+       try {
+            const id_user = req.params.id_user;
+            const result = deleteUser(id_user);
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+}

@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 
 import { authenticate } from "./models/users.database.js";
 
+import { errorHandler } from "./middleware/errorHandler.js";
+
 import { config } from "dotenv";
 
 config();
@@ -25,29 +27,24 @@ app.post("/login", async (req, res, next) => {
     const token = jwt.sign(
       {
         user: user.id_user,
-        // exp: Math.floor(Date.now() / 1000) + 60,
       },
       process.env.JWT_SECRET_SIGN
     );
 
-    res.status(200).json({ accessToken: token, userID: user.id_user });
+    res.json({ accessToken: token, userID: user.id_user });
   } else {
-    res.status(404).json({ msg: "el usuario no existe" });
+    next({
+      statusCode: 404,
+      message: "Email o contraseña incorrectos",
+    });
   }
 });
 
 app.use("/questions", questionsRoute);
 
-app.use((err, req, res, next) => {
-  console.log("err", err);
-  next(err);
-});
-
 app.use("/users", usersRoute);
 
-app.use((err, req, res, next) => {
-    res.status(500).json({ error: err });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);

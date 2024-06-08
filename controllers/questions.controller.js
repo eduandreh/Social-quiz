@@ -2,35 +2,39 @@ import axios from 'axios';
 import { 
     getQuestion, 
     insertQuestion,
-    allQuestionsByUser
+    allQuestionsByUser,
+    getHint
 } from "../models/questions.database.js"
 
 
 export const getQuestionController = (req, res, next) => {
-    res.json(getQuestion());
+    try {
+        const result = getQuestion(req.params.id_question);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
 }
 
-
-
 export const insertQuestionController = async (req, res, next) => {
-    const toInsert = req.body; // Validar que el body sea correcto.
+    const toInsert = req.body; 
     const user = req.USER_ID;
     const movieName = toInsert.answer;
     let hint = null;
 
     console.log("user_id", user);
 
-     hint = await getHint(movieName);
+     hint = await createHint(movieName);
 
     try {
         const result = await insertQuestion(toInsert, hint, user);
-        res.status(200).json(result);
+        res.json(result);
     } catch (error) {
         next(error);
     }
 };
 
-const getHint = async (movieName) => {
+const createHint = async (movieName) => {
     try {
         const response = await axios.post('http://localhost:11434/api/chat', {
             "model": "llama3:instruct",
@@ -50,24 +54,26 @@ const getHint = async (movieName) => {
     }
 };
 
-//random ()
-
-// export const updateUserController = (req, res, next) => {
-
-//     const id = req.params.id;  // verificar que el id es correcto...
-//     const toUpdate = req.body; // verificar que el body es correcto...
-
-//     // res.status(500).send("not implemented")
-//     res.status(200).json(updateUser(id , toUpdate))
-// }
-// export const deleteUserController = (req, res, next) => {
-//     res.status(501).send("not implemented")
-// }
+export const getHintController = async (req, res, next) => {
+    const {id_question} = req.params;
+    try {
+        const result = await getHint(id_question);
+        if(result){
+            res.json(result);
+        }
+        else{
+            res.status(404).json({msg: "No hay pistas disponibles para esta pregunta."});
+        }
+        
+    } catch (error) {
+        next(error);
+    }
+}
 
 export const getQuestionsByUserController = (req, res, next) => {
     try {
-      let { idUser } = req.params;
-      const result = allQuestionsByUser(idUser);
+      let {id_user}  = req.params;
+      const result = allQuestionsByUser(id_user);
       res.json(result);
     } catch (error) {
       next(error);

@@ -1,4 +1,4 @@
-// voy a considerar que estoy en: /todos
+// voy a considerar que estoy en: /questions
 import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -12,8 +12,8 @@ import {
   allUsersController,
   getUsersController,
   insertUserController,
-//   updateUserController,
-//   deleteUserController,
+  updateUserController,
+  deleteUserController
 } from "../controllers/users.controller.js";
 
 
@@ -37,8 +37,8 @@ router.post("/", verifyUserSchema, insertUserController);
 router.use(verifyToken);
 router.get("/", allUsersController);
 router.get("/:id", getUsersController);
-// router.put("/:id", updateUserController);
-// router.delete("/:id", deleteUserController);
+router.put("/:id_user", verifyUserSchema, updateUserController);
+router.delete("/:id_user", deleteUserController);
 
 router.use("/:id_user/questions", routeQuestions);
 

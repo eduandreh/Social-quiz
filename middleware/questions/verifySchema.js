@@ -4,7 +4,8 @@ export function verifyQuestionSchema(req, res, next) {
   try {
     validateQuestionSchema(req.body);
     next();
-  } catch (ex) {
-    next(ex);
+  } catch (error) {
+    error.statusCode = 400;
+    next(error);
   }
 }

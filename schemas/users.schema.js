@@ -6,7 +6,7 @@ const schema = Joi.object({
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
-  }),
+  }).required(),
 
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
 
@@ -14,11 +14,10 @@ const schema = Joi.object({
 });
 
 export function validateUserSchema(user) {
-  console.log("validateUserSchema", user);
   const { value, error } = schema.validate(user);
 
   if (error) {
-    throw error.name + ": " + error.details[0].message;
+    throw error;
   }
 
   return value;

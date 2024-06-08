@@ -5,11 +5,17 @@ import {
 export const sendAnswerController = (req, res, next) => {
     const id = req.params.id;
     const answer = req.body.answer;
-    if(sendAnswer(id, answer)){
-        res.status(200).send("Correcto! :)");
+    
+    try {
+        const result = sendAnswer(id, answer);
+        if (result) {
+            res.status(200).send("Correcto! :)");
+        } else {
+            const error = new Error("Respuesta incorrecta. Intente de nuevo o solicite una pista.");
+            error.statusCode = 400;
+            throw error;
+        }
+    } catch (error) {
+        next(error);
     }
-    else{
-        res.status(400)
-        .send("Respuesta incorrecta. Intente de nuevo o solicite una pista.");
-    }
-}
+};

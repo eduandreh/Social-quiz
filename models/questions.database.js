@@ -3,10 +3,6 @@ const DBSOURCE = "./socialQuiz.sqlite";
 
 const db2 = bsqlite3(DBSOURCE);
 
-// router.get("/", getQuestionController);
-// router.post("/", insertQuestionController);
-// router.post("/:id", sendAnswerController);
-
 export function getQuestion() {
   const result = db2.prepare("SELECT * FROM questions WHERE is_private = 0 ORDER BY RANDOM() LIMIT 1").get();
   return result;
@@ -28,6 +24,26 @@ export async function insertQuestion(toInsert, hint, id_user) {
 
 export function allQuestionsByUser(id_user) {
   const result = db2.prepare("SELECT * FROM questions WHERE id_user=?").all(id_user);
+  return result;
+}
+
+export function getHint(id_question) {
+  const result = db2.prepare("SELECT hint FROM questions WHERE id_question = ?").get(id_question);
+  return result;
+}
+
+export function updateUser(id_user, toUpdate) {
+  const keys = Object.keys(toUpdate);
+  const values = Object.values(toUpdate);
+  const stringKeys = keys.map((x) => `${x} = ?`).join(" , ");
+  const result = db2
+    .prepare(`UPDATE users SET ${stringKeys} where id_user = ?`)
+    .run(...values, id_user);
+  return result;
+}
+
+export function deleteUser(id_user) {
+  const result = db2.prepare(`DELETE FROM users WHERE id_user = ?`).run(id_user);
   return result;
 }
 

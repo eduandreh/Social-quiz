@@ -87,8 +87,9 @@ json
 
 que me queda
 
-Esquemas y validaciones 
+Esquemas y validaciones (listo)
 User autorizaciones y getquestion por user (listo)
+Update y Delete users y questions (falta questions)
 Categorias de preguntas (todo)
 Modo de juego de multiple choice
 Comentarios
