@@ -44,6 +44,7 @@ INSERT INTO category (name) VALUES ('Aventuras');
 INSERT INTO category (name) VALUES ('Romantica');
 INSERT INTO category (name) VALUES ('Musical');
 INSERT INTO category (name) VALUES ('Fantasia');
+INSERT INTO category (name) VALUES ('Animacion');
 
 DROP TABLE IF EXISTS question_category;
 CREATE TABLE question_category(

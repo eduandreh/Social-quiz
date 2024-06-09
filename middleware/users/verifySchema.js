@@ -1,4 +1,4 @@
-import { validateUserSchema } from "../../schemas/users.schema.js";
+import { validateUserSchema } from '../../schemas/users.schema.js';
 
 export function verifyUserSchema(req, res, next) {
   try {

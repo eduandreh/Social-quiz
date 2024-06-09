@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const schema = Joi.object({
   text: Joi.string().min(1).max(300).required(),

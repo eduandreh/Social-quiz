@@ -50,5 +50,4 @@ app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
     console.log(`http://localhost:${PORT}/questions`);
     console.log(`http://localhost:${PORT}/users`);
-    console.log(`http://localhost:${PORT}/questions/1`);
   });

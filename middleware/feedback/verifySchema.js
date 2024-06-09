@@ -1,4 +1,4 @@
-import { validateCommentSchema } from "../../schemas/comments.schema.js";
+import { validateCommentSchema } from '../../schemas/comments.schema.js';
 
 export function verifyCommentSchema(req, res, next) {
   try {
