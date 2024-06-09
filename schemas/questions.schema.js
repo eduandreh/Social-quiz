@@ -16,6 +16,8 @@ const schema = Joi.object({
 
     is_multiple_choice: Joi.number().integer().valid(0, 1),
 
+    id_category: Joi.number().integer(),
+
   multiple_choice_answers: Joi.when('is_multiple_choice', {
     is: 1,
     then: multipleChoiceAnswerSchema,

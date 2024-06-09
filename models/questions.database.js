@@ -6,7 +6,7 @@ const db2 = bsqlite3(DBSOURCE);
 export function getRandomQuestion(mode) {
   let query;
   if (mode === 'multiplechoice') {
-    query = "SELECT id_question, emojis, multiple_choice_answers FROM questions WHERE is_private = 0 AND is_multiple_choice = 1 ORDER BY RANDOM() LIMIT 1";
+    query = "SELECT (id_question, emojis, multiple_choice_answers) FROM questions WHERE is_private = 0 AND is_multiple_choice = 1 ORDER BY RANDOM() LIMIT 1";
   } else {
     query = "SELECT id_question, emojis FROM questions WHERE is_private = 0 AND is_multiple_choice = 0 ORDER BY RANDOM() LIMIT 1";
   }
@@ -30,8 +30,28 @@ export async function insertQuestion(toInsert, hint, id_user) {
         "INSERT INTO questions (emojis, answer, is_private, hint, id_user, is_multiple_choice, multiple_choice_answers) VALUES (?, ?, ?, ?, ?, ?, ?)")
         .run(emojis, answer, is_private, hint, id_user, is_multiple_choice, multipleChoiceAnswersJson);
 
-
     return result;
+}
+
+export function insertCategory(id_question, id_category) {
+  const result = db2
+    .prepare("INSERT INTO question_category (id_question, id_category) VALUES (?, ?)")
+    .run(id_question, id_category);
+  return result;
+}
+
+export function getQuestionByCategory(id_category) {
+  const query = `
+  SELECT questions.id_question, questions.emojis
+  FROM question_category
+  INNER JOIN questions ON question_category.id_question = questions.id_question
+  WHERE question_category.id_category = ?
+  ORDER BY RANDOM()
+  LIMIT 1;`;
+  
+  const questions = db2.prepare(query).all(id_category);
+
+  return questions;
 }
 
 export function allQuestionsByUser(id_user) {
@@ -40,7 +60,7 @@ export function allQuestionsByUser(id_user) {
 }
 
 export function getHint(id_question) {
-  const result = db2.prepare("SELECT hint FROM questions WHERE id_question = ?").get(id_question);
+  const result = db2.prepare("SELECT Hint FROM questions WHERE is_private = 0 AND id_question = ?").get(id_question);
   return result;
 }
 

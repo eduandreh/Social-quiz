@@ -6,7 +6,9 @@ import {
     getHint,
     getQuestion,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    insertCategory,
+    getQuestionByCategory
 } from "../models/questions.database.js"
 
 
@@ -48,11 +50,22 @@ export const insertQuestionController = async (req, res, next) => {
 
     try {
         const result = await insertQuestion(toInsert, hint, user);
+        insertCategory(result.lastInsertRowid, toInsert.id_category);
         res.json(result);
     } catch (error) {
         next(error);
     }
 };
+
+export const getQuestionByCategoryController = (req, res, next) => {
+    try {
+      let {id_category}  = req.params;
+      const result = getQuestionByCategory(id_category);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
 
 const createHint = async (movieName) => {
     try {
@@ -76,9 +89,11 @@ const createHint = async (movieName) => {
 
 export const getHintController = async (req, res, next) => {
     const {id_question} = req.params;
+    console.log("id_question", id_question);
     try {
         const result = await getHint(id_question);
-        if(result && result.is_private === 0){
+        if(result){
+            
             res.json(result);
         }
         else{

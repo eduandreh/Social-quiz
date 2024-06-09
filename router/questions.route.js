@@ -9,7 +9,8 @@ import {
     getRandomQuestionController,
     insertQuestionController,
     getQuestionController,
-   getHintController
+   getHintController,
+   getQuestionByCategoryController
   } from "../controllers/questions.controller.js";
 
   import {
@@ -21,11 +22,10 @@ router.get("/", getRandomQuestionController);
 router.post("/:id_question", sendAnswerController);
 router.get("/:id_question", getQuestionController);
 router.get("/:id_question/hint", getHintController);
+router.get("/category/:id_category", getQuestionByCategoryController);
 
 // privado
 router.use(verifyToken);
 router.post("/", verifyQuestionSchema, insertQuestionController);
-//router.put("/:id", updateUserController);
-//router.delete("/:id", deleteUserController);
 
 export default router;
