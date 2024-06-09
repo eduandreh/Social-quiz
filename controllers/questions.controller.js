@@ -4,7 +4,6 @@ import {
     insertQuestion,
     allQuestionsByUser,
     getHint,
-    getQuestion,
     updateQuestion,
     deleteQuestion,
     insertCategory,
@@ -17,22 +16,6 @@ export const getRandomQuestionController = (req, res, next) => {
     try {
         const result = getRandomQuestion(mode);
         res.json(result);
-    } catch (error) {
-        next(error);
-    }
-}
-
-export const getQuestionController = async (req, res, next) => {
-    const {id_question} = req.params;
-    try {
-        const result = await getQuestion(id_question);
-        if(result && result.is_private === 0){
-            res.json(result);
-        }
-        else{
-            res.status(404).json({msg: "Pregunta no encontrada."});
-        }
-
     } catch (error) {
         next(error);
     }

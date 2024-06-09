@@ -61,14 +61,16 @@ CREATE TABLE comments (
     id_comment INTEGER PRIMARY KEY AUTOINCREMENT,
     id_user INTEGER,
     id_question INTEGER,
-    text TEXT
+    text TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 
 );
 
 DROP TABLE IF EXISTS likes;
-CREATE TABLE likes (
-    id_like INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_dislike INTEGER,
+DROP TABLE IF EXISTS interactions;
+CREATE TABLE interactions (
+    id_interaction INTEGER PRIMARY KEY AUTOINCREMENT,
     id_question INTEGER,
-    id_user INTEGER
+    id_user INTEGER,
+    type TEXT CHECK(type IN ('like', 'dislike'))
 );

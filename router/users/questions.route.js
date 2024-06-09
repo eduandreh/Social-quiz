@@ -1,4 +1,4 @@
-// voy a considerar que estoy en: /users/:id/questions
+//  /users/:id/questions
 
 import express from "express";
 const router = express.Router({ mergeParams: true });

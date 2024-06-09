@@ -8,7 +8,6 @@ const router = express.Router({ mergeParams: true });
 import {
     getRandomQuestionController,
     insertQuestionController,
-    getQuestionController,
    getHintController,
    getQuestionByCategoryController
   } from "../controllers/questions.controller.js";
@@ -17,15 +16,21 @@ import {
     sendAnswerController
   } from "../controllers/answers.controller.js";
 
+  import routeFeedback from "./questions/feedback.route.js";
+
+  import { getQuestionDetailsController } from "../controllers/feedback.controller.js";
+
 // publico
 router.get("/", getRandomQuestionController);
 router.post("/:id_question", sendAnswerController);
-router.get("/:id_question", getQuestionController);
+router.get("/:id_question", getQuestionDetailsController);
 router.get("/:id_question/hint", getHintController);
 router.get("/category/:id_category", getQuestionByCategoryController);
 
 // privado
 router.use(verifyToken);
 router.post("/", verifyQuestionSchema, insertQuestionController);
+
+router.use("/:id_question", routeFeedback);
 
 export default router;
