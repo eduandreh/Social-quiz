@@ -4,13 +4,16 @@ import {
     insertQuestion,
     allQuestionsByUser,
     getHint,
-    getQuestion
+    getQuestion,
+    updateQuestion,
+    deleteQuestion
 } from "../models/questions.database.js"
 
 
 export const getRandomQuestionController = (req, res, next) => {
+    const { mode } = req.query;
     try {
-        const result = getRandomQuestion(req.params.id_question);
+        const result = getRandomQuestion(mode);
         res.json(result);
     } catch (error) {
         next(error);
@@ -21,7 +24,7 @@ export const getQuestionController = async (req, res, next) => {
     const {id_question} = req.params;
     try {
         const result = await getQuestion(id_question);
-        if(result){
+        if(result && result.is_private === 0){
             res.json(result);
         }
         else{
@@ -75,7 +78,7 @@ export const getHintController = async (req, res, next) => {
     const {id_question} = req.params;
     try {
         const result = await getHint(id_question);
-        if(result){
+        if(result && result.is_private === 0){
             res.json(result);
         }
         else{
@@ -96,3 +99,24 @@ export const getQuestionsByUserController = (req, res, next) => {
       next(error);
     }
   };
+
+export const updateQuestionController = async (req, res, next) => {
+    const {id_question} = req.params;
+    const toUpdate = req.body;
+    try {
+        const result = updateQuestion(id_question, toUpdate);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const deleteQuestionController = (req, res, next) => {
+    const {id_question} = req.params;
+    try {
+        const result = deleteQuestion(id_question);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+}

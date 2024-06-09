@@ -89,9 +89,9 @@ que me queda
 
 Esquemas y validaciones (listo)
 User autorizaciones y getquestion por user (listo)
-Update y Delete users y questions (falta questions)
-Autorizar en getQuestion
+Update y Delete users y questions (listo?)
+Ver Insert con tema multiple choice y categoria (listo mc)
 Categorias de preguntas (todo)
-Modo de juego de multiple choice
+Modo de juego de multiple choice (listo)
 Comentarios
 Likes, dislike

@@ -18,37 +18,43 @@ CREATE TABLE questions (
     emojis TEXT,
     answer TEXT,
     is_private INTEGER DEFAULT 0,
-    hint TEXT,
-    is_multiple_choice INTEGER DEFAULT 0
+    is_multiple_choice INTEGER DEFAULT 0,
+    multiple_choice_answers TEXT,
+    hint TEXT
 );
 
-INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('🔕🐑🐑🐑', 'El silencio de los corderos', 1, 0);
-INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('💍💍💍💍⚰️', 'Cuatro bodas y un funeral', 2, 0);
-INSERT INTO questions (emojis, answer, id_movie, is_private, id_user) VALUES ('🏝️🏐', 'Naufrago', 3, 0);
+INSERT INTO questions (emojis, answer, is_private, id_user) VALUES ('🔕🐑🐑🐑', 'El silencio de los corderos', 0, 1);
+INSERT INTO questions (emojis, answer, is_private, id_user) VALUES ('💍💍💍💍⚰️', 'Cuatro bodas y un funeral', 0, 2);
+INSERT INTO questions (emojis, answer, is_private, id_user) VALUES ('🏝️🏐', 'Naufrago', 0, 3);
 
 
 DROP TABLE IF EXISTS multiple_choice_answers;
-CREATE TABLE multiple_choice_answers (
-    id_answer INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_question INTEGER,
-    answer TEXT,
-    FOREIGN KEY (id_question) REFERENCES questions(id_question)
-);
 
 DROP TABLE IF EXISTS category;
 CREATE TABLE category (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_category INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT
 );
+
+INSERT INTO category (name) VALUES ('Terror');
+INSERT INTO category (name) VALUES ('Comedia');
+INSERT INTO category (name) VALUES ('Drama');
+INSERT INTO category (name) VALUES ('Ciencia Ficcion');
+INSERT INTO category (name) VALUES ('Aventuras');
+INSERT INTO category (name) VALUES ('Romantica');
+INSERT INTO category (name) VALUES ('Musical');
+INSERT INTO category (name) VALUES ('Fantasia');
 
 DROP TABLE IF EXISTS question_category;
 CREATE TABLE question_category(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    questionId INTEGER,
-    categoryId INTEGER
+    id_question INTEGER,
+    id_category INTEGER
 );
 
-
+INSERT INTO question_category (id_question, id_category) VALUES (1, 1);
+INSERT INTO question_category (id_question, id_category) VALUES (2, 2);
+INSERT INTO question_category (id_question, id_category) VALUES (3, 3);
 
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
